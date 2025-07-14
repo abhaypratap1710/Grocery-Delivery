@@ -1,21 +1,49 @@
 import React from 'react'
 import { useAppContext } from "../context/AppContext";
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 
 const Login = () => {
-const{setShowUserLogin,setUser}=useAppContext();
+const{setShowUserLogin,setUser,navigate}=useAppContext();
 const [state, setState] = React.useState("login");
 const [name, setName] = React.useState("");
 const [email, setEmail] = React.useState("");
 const [password, setPassword] = React.useState("");
 const onSubmitHandler = async(event)=>{
-    event.preventDefault();
-    setUser({
-        email:"Sample@gmail.dev",
-        name:"GreatStack"
+    try {
+        console.log("user state", state)
+        event.preventDefault();
+        const { data} = await axios.post(`/api/user/${state}`,{
+            name,email,password
+        })
+        if(data.success){
+            navigate('/')
+            setUser(data.user);
+            setShowUserLogin(false);
+        }else{
+            console.log(data.message);
+            toast.error(data.message);
+            
+        }
 
-    })
-    setShowUserLogin(false);
+        
+    } catch (error) {
+        console.log(error);
+
+        
+    }
+  
+  
+    
+
+
+
+      // setUser({
+    //     email:"Sample@gmail.dev",
+    //     name:"GreatStack"
+
+    // })
 
 }
   return (
@@ -51,6 +79,9 @@ const onSubmitHandler = async(event)=>{
             )}
             <button className="bg-primary hover:bg-primary-dull transition-all text-white w-full py-2 rounded-md cursor-pointer">
                 {state === "register" ? "Create Account" : "Login"}
+            </button>
+            <button className="bg-primary hover:bg-primary-dull transition-all text-white w-full py-2 rounded-md cursor-pointer"  onClick={()=> navigate("/seller")}>
+                Login as Seller
             </button>
         </form>
     </div>

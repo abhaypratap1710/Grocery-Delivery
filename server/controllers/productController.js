@@ -27,6 +27,7 @@ export const addProduct=async(req,res)=>{
 export const productList=async(req,res)=>{
     try {
         const product=await Product.find({})
+        console.log(product);
         res.json({success:true,product})
     } catch (error) {
         console.log(error.message);

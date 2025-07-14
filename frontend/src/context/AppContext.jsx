@@ -12,7 +12,9 @@ axios.defaults.withCredentials=true;
 axios.defaults.baseURL=import.meta.env.VITE_BACKEND_URL;
 
 
-export const AppContext=createContext ()
+export const AppContext=createContext ({
+    products: []
+})
 
 
 export const AppContextProvider=({children})=>{
@@ -36,13 +38,46 @@ export const AppContextProvider=({children})=>{
                 setIsSeller(false);
             }
         } catch (error) {
+            console.log(error)
             setIsSeller(false)
+            
+        }
+    }
+    //// featch user statues and all data 
+    const fetchUser = async ()=>{
+        try {
+            const {data} = await axios.get(`api/user/is-auth`);
+            if(data.success){
+                setUser(data.user);
+                setCartItems(data.user.cartItems)
+                
+            }
+            
+            
+        } catch (error) {
+            setUser(null);
+            console.log("enable to fetch user auth data")
+            console.log(error)
+
             
         }
     }
 
     const fetchProducts=async()=>{
-        setProducts(dummyProducts)
+       try {
+          const {data} =await axios.get('/api/product/list')
+          console.log("product ", data.product)
+          if(data.success){
+            setProducts(data.product)
+
+          }else{
+            toast.error(data.message)
+          }
+        
+       } catch (error) {
+            toast.error(error.message)
+        
+       }
     }
     const addToCart = (itemId) => {
     let cartData = structuredClone(cartItems);
@@ -96,12 +131,14 @@ export const AppContextProvider=({children})=>{
     }
    
     useEffect(()=>{
+         fetchUser();
         fetchSeller()
         fetchProducts();
+       
     },[])
 
     const value = {
-        navigate,user, setUser,setIsSeller,isSeller,showUserLogin,setShowUserLogin,products,currency,addToCart,updateCartItem, removeFromCart,cartItems,searchQuery,setSearchQuery,getCartAmount,getCartCount,axios
+        navigate,user, setUser,setIsSeller,isSeller,showUserLogin,setShowUserLogin,products,currency,addToCart,updateCartItem, removeFromCart,cartItems,searchQuery,setSearchQuery,getCartAmount,getCartCount,axios,fetchProducts
          
     }
 

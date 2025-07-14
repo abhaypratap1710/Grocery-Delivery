@@ -4,10 +4,24 @@ import { assets } from "../assets/assets";
 import { useEffect } from "react";
 
 import { useAppContext } from "../context/AppContext";
+import axios from "axios";
 const Navbar = () => {
   const [open, setOpen] = React.useState(false);
   const { user, setUser, setShowUserLogin, navigate ,setSearchQuery,searchQuery,getCartCount} = useAppContext();
   const logout = async () => {
+    try {
+      const response = await axios.get(`/api/user/logout`);
+      setUser(null);
+      setShowUserLogin(false);
+      navigate("/");
+      console.log(response)
+      
+      
+    } catch (error) {
+      console.log(error);
+
+      
+    }
     setUser(null);
     navigate("/");
   };

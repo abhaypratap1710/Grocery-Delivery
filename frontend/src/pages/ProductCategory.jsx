@@ -6,9 +6,20 @@ import ProductCard from '../components/ProductCard';
 
 const ProductCategory = () => {
     const {products} =useAppContext();
+    console.log(products)
     const {category} = useParams();
-    const searchCategory=categories.find((item)=>item.path.toLowerCase()=== category)
-    const filteredProducts = products.filter((product) => product.category.toLowerCase() === category);
+  
+    const searchCategory=categories.find((item)=>item.path.toLowerCase() === category);
+    console.log(searchCategory)
+
+    const filteredProducts = products.filter((product) =>
+  product.category.some((cat) => cat.toLowerCase() === category.toLowerCase())
+);
+
+    // const filteredProducts = products.filter((product) => product.category.toLowerCase() === category);
+
+  
+    console.log(filteredProducts)
 
   return (
     <div className='mt-16'>
