@@ -49,7 +49,7 @@ const App = () => {
               
         </Routes>
       </div>
-      {!isSellerPath && <Footer/>}
+      {/* {!isSellerPath && <Footer/>} */}
       
     </div>
   )
