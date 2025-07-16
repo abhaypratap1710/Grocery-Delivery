@@ -4,7 +4,7 @@ import cors from 'cors';
 import 'dotenv/config';
 
 import connectDB from './configs/db.js';
-import connectCloudinary from './configs/cloudinary.js';
+import connectCloudinary from './configs/cloudinary.js'
 
 import userRouter from './routes/userRoute.js';
 import sellerRouter from './routes/sellerRoute.js';
@@ -21,7 +21,7 @@ await connectDB();
 await connectCloudinary();
 
 // ✅ Fix: Use correct middleware order and CORS settings
-const allowedOrigins = ['http://localhost:5173'];
+const allowedOrigins = ['https://grocery-delivery-x3rt.onrender.com', 'http://localhost:5173'];
 
 app.use(cors({
   origin: allowedOrigins,
