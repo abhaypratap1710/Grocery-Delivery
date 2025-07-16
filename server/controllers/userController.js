@@ -1,6 +1,6 @@
 // Register user:/api/user/register
 
-import User from "../models/user.js"
+import User from "../models/User"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
   
